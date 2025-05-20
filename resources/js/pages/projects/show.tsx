@@ -1,5 +1,5 @@
 import React from 'react';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, Link } from '@inertiajs/react';
 
 // Type definition for the project data
 interface Project {
@@ -46,9 +46,12 @@ const Show = () => {
           )}
         </div>
         <div className="card-footer">
-          <a href={`/projects/${project.id}/edit`} className="btn btn-warning">
+          <Link href={`/projects/${project.id}/edit`} className="btn btn-warning">
             Edit Project
-          </a>
+          </Link>
+          <Link href={`/projects`} className="btn btn-info ms-1">
+            Back
+          </Link>
         </div>
       </div>
     </div>

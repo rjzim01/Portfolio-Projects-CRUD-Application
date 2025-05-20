@@ -1,5 +1,5 @@
 import React, { FormEvent } from 'react';
-import { Head, useForm, usePage, router } from '@inertiajs/react';
+import { Head, useForm, usePage, router, Link } from '@inertiajs/react';
 
 // Type definition for the project data
 interface Project {
@@ -130,6 +130,10 @@ const Edit = () => {
         <button type="submit" className="btn btn-primary" disabled={processing}>
           {processing ? 'Submitting...' : 'Update Project'}
         </button>
+
+        <Link href={`/projects`} className="btn btn-info ms-1">
+          Back
+        </Link>
       </form>
     </div>
     </>

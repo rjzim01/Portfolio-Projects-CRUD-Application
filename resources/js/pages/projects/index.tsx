@@ -1,5 +1,5 @@
 import React from 'react';
-import { Head, usePage, useForm } from '@inertiajs/react';
+import { Head, usePage, useForm, Link } from '@inertiajs/react';
 
 interface Project {
   id: number;
@@ -39,44 +39,49 @@ const Index = () => {
       
       {/* Create Button */}
       <div className="mb-4">
-        <a href="/projects/create" className="btn btn-success">
+        <Link href="/projects/create" className="btn btn-success">
           Create New Project
-        </a>
+        </Link>
       </div>
       
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {projects.map((project) => (
-            <tr key={project.id}>
-              <td>{project.title}</td>
-              <td>{project.description}</td>
-              <td>{project.status}</td>
-              <td>
-                <a href={`/projects/${project.id}`} className="btn btn-info me-1">
-                  View
-                </a>
-                <a href={`/projects/${project.id}/edit`} className="btn btn-warning me-1">
-                  Edit
-                </a>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(project.id)}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div style={{ whiteSpace: 'nowrap' }}>
+        <div className="table-responsive">
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {projects.map((project) => (
+                <tr key={project.id}>
+                  <td>{project.title}</td>
+                  <td>{project.description}</td>
+                  <td>{project.status}</td>
+                  <td>
+                    <Link href={`/projects/${project.id}`} className="btn btn-info me-1">
+                      View
+                    </Link>
+                    <Link href={`/projects/${project.id}/edit`} className="btn btn-warning me-1">
+                      Edit
+                    </Link>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(project.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
     </>
   );
