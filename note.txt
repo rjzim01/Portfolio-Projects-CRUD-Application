@@ -1,2 +1,3 @@
 php artisan make:model Project -mcr
 php artisan storage:link
+npm install sweetalert2
