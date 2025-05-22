@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
@@ -17,9 +18,17 @@ class ProjectController extends Controller
         //$projects = Project::latest()->get();
         //$projects = Project::all();
         $projects = Project::latest()->paginate(3);
+        // $projects = Cache::remember('projects', 3600, function() {
+        //     //return Project::latest()->paginate(3);
+        //     return Project::paginate(5);
+        // });
+
+        // Fetch only id and title for search (you can add description if needed)
+        $allProjects = Project::select('id', 'title')->latest()->get();
 
         return Inertia::render('projects/index', [
             'projects' => $projects,
+            'allProjects' => $allProjects
         ]);
     }
 

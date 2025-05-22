@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Head, usePage, useForm, Link } from '@inertiajs/react';
 import Swal from 'sweetalert2';
 
@@ -23,8 +23,30 @@ interface PaginatedProjects {
 }
 
 const Index = () => {
+
   // Manually typing the props for projects from Inertia's usePage hook
-  const { projects } = usePage<{ projects: PaginatedProjects }>().props;
+  const { projects, allProjects } = usePage<{ 
+    projects: PaginatedProjects; 
+    allProjects: Project[]; 
+  }>().props;
+
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setFilteredProjects([]);
+      return;
+    }
+
+    const matches = allProjects.filter((project) =>
+      project.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setFilteredProjects(matches);
+  }, [searchTerm, allProjects]);
+
 
   // Dynamic Project table row
   const ProjectRow = ({ project, onDelete }: { project: Project; onDelete: (id: number) => void }) => (
@@ -77,13 +99,57 @@ const Index = () => {
     <>
     <Head title="Project Index" />
     <div className="container mt-5">
-      <h2 className="mb-4">Projects List</h2>
+
+      <Link href="/projects" className="text-decoration-none text-dark">
+        <h2 className="mb-4">Projects List</h2>
+      </Link>
       
       {/* Create Button */}
-      <div className="mb-4">
+      <div className="mb-4 d-flex justify-content-between align-items-center">
+
+        {/* Create Button */}
         <Link href="/projects/create" className="btn btn-success">
           Create New Project
         </Link>
+
+        {/* Search Input with Result */}
+        <div style={{ position: 'relative', maxWidth: '300px', width: '100%' }}>
+          <input
+            type="text"
+            placeholder="Search projects..."
+            className="form-control"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          {filteredProjects.length > 0 && (
+            <div
+              className="card shadow mt-1"
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                zIndex: 1000,
+              }}
+            >
+              <h6 className="card-header">Search Results</h6>
+              <ul className="list-group list-group-flush">
+                {filteredProjects.map((project) => (
+                  <li key={project.id} className="list-group-item">
+                    <Link
+                      href={`/projects/${project.id}`}
+                      className="text-decoration-none text-dark"
+                    >
+                      {project.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
       </div>
       
       <div style={{ whiteSpace: 'nowrap' }}>
