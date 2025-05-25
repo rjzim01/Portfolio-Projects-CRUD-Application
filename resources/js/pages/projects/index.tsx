@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Head, usePage, useForm, Link } from '@inertiajs/react';
 import Swal from 'sweetalert2';
 import Nav from './nav';
+import "../../../css/style.css";
 
 interface Project {
   id: number;
@@ -96,6 +97,25 @@ const Index = () => {
     });
   };
 
+  const [sortConfig, setSortConfig] = useState<{ key: keyof Project; direction: 'asc' | 'desc' } | null>(null);
+
+  const handleSort = (key: keyof Project) => {
+    setSortConfig((prev) => {
+      if (prev?.key === key) {
+        return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
+      }
+      return { key, direction: 'asc' };
+    });
+  };
+
+  const renderSortIcon = (key: keyof Project) => {
+    if (!sortConfig || sortConfig.key !== key) return <i className="bi bi-arrow-down-up ms-1"></i>;
+    if (sortConfig.direction === 'asc') return <i className="bi bi-arrow-up ms-1"></i>;
+    return <i className="bi bi-arrow-down ms-1"></i>;
+  };
+
+
+  
   return (
     <>
     <Head title="Project Index" />
@@ -141,7 +161,7 @@ const Index = () => {
                   <li key={project.id} className="list-group-item">
                     <Link
                       href={`/projects/${project.id}`}
-                      className="text-decoration-none text-dark"
+                      className="text-decoration-none text-body project-link"
                     >
                       {project.title}
                     </Link>
@@ -159,16 +179,53 @@ const Index = () => {
           <table className="table table-bordered">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Status</th>
+                {/* <th>Title</th> */}
+                <th onClick={() => handleSort('title')} style={{ cursor: 'pointer' }}>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span>Title</span> 
+                    {renderSortIcon('title')}
+                  </div>
+                </th>
+                {/* <th>Description</th> */}
+                <th onClick={() => handleSort('description')} style={{ cursor: 'pointer' }}>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span>Description</span> 
+                    {renderSortIcon('description')}
+                  </div>
+                </th>
+                {/* <th>Status</th> */}
+                <th onClick={() => handleSort('status')} style={{ cursor: 'pointer' }}>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span>Status</span> 
+                    {renderSortIcon('status')}
+                  </div>
+                </th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {projects.data.map((project) => (
+              {/* {projects.data.map((project) => (
                 <ProjectRow key={project.id} project={project} onDelete={handleDelete} />
+              ))} */}
+
+              {[...projects.data]
+                .sort((a, b) => {
+                  if (!sortConfig) return 0;
+
+                  // const aVal = a[sortConfig.key] ?? '';
+                  // const bVal = b[sortConfig.key] ?? '';
+
+                  const aVal = String(a[sortConfig.key] ?? '').toLowerCase();
+                  const bVal = String(b[sortConfig.key] ?? '').toLowerCase();
+
+                  if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
+                  if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
+                  return 0;
+                })
+                .map((project) => (
+                  <ProjectRow key={project.id} project={project} onDelete={handleDelete} />
               ))}
+
             </tbody>
           </table>
           <div className="d-flex justify-content-end mt-4">

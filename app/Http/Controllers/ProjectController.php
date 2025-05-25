@@ -17,7 +17,7 @@ class ProjectController extends Controller
     {
         //$projects = Project::latest()->get();
         //$projects = Project::all();
-        $projects = Project::latest()->paginate(3);
+        $projects = Project::latest()->paginate(5);
         // $projects = Cache::remember('projects', 3600, function() {
         //     //return Project::latest()->paginate(3);
         //     return Project::paginate(5);
