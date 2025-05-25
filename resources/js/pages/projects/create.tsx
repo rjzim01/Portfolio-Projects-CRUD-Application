@@ -1,6 +1,7 @@
 import React, { FormEvent } from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import { route } from 'ziggy-js';
+import Nav from './nav';
 
 const Create = () => {
     const { data, setData, post, processing, errors } = useForm<{
@@ -25,7 +26,8 @@ const Create = () => {
     return (
         <>
         <Head title="Project Create" />
-        <div className="container mt-5">
+        <Nav/>
+        <div className="container mt-3">
             <h2 className="mb-4">Create New Project</h2>
 
             <form onSubmit={handleSubmit} encType="multipart/form-data">

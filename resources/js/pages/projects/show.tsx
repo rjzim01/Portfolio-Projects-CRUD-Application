@@ -1,5 +1,6 @@
 import React from 'react';
 import { Head, usePage, Link } from '@inertiajs/react';
+import Nav from './nav';
 
 // Type definition for the project data
 interface Project {
@@ -17,8 +18,9 @@ const Show = () => {
 
   return (
     <>
-    <Head title="Project Show" />
-    <div className="container mt-5">
+    <Head title="Project Show"/>
+    <Nav/>
+    <div className="container mt-3">
       <h2 className="mb-4">Project Details</h2>
 
       <div className="card">

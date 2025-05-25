@@ -1,5 +1,6 @@
 import React, { FormEvent } from 'react';
 import { Head, useForm, usePage, router, Link } from '@inertiajs/react';
+import Nav from './nav'
 
 // Type definition for the project data
 interface Project {
@@ -56,7 +57,8 @@ const Edit = () => {
 
   return (
     <>
-    <Head title="Project Edit" />
+    <Head title="Project Edit"/>
+    <Nav/>
     <div className="container mt-5">
       <h2 className="mb-4">Edit Project</h2>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Head, usePage, useForm, Link } from '@inertiajs/react';
 import Swal from 'sweetalert2';
+import Nav from './nav';
 
 interface Project {
   id: number;
@@ -98,11 +99,12 @@ const Index = () => {
   return (
     <>
     <Head title="Project Index" />
-    <div className="container mt-5">
+    {/* Navbar */}
+    <Nav/>
+    {/* Body */}
+    <div className="container mt-3">
 
-      <Link href="/projects" className="text-decoration-none text-dark">
-        <h2 className="mb-4">Projects List</h2>
-      </Link>
+      <h2 className="mb-4">Projects List</h2>
       
       {/* Create Button */}
       <div className="mb-4 d-flex justify-content-between align-items-center">
